@@ -12,17 +12,26 @@ import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+
 
 @Data
 @Entity
-@Table(name="roles")
-public class Rol {
+@Table(name="users")
+public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+    @Column(nullable = false)
+    private Boolean enabled;
+    @Column(nullable = false,length = 12)
     private String name;
-    @ManyToMany(mappedBy = "rolList")//Mapping on the attribute of the related class
-    private List<User> userList;
+    @Column(nullable = false)
+    private String password;
+    @ManyToMany
+    @JoinTable(
+        name = "users_roles",
+        joinColumns = @JoinColumn(name = "user_id"),
+        inverseJoinColumns = @JoinColumn(name="rol_id")
+    )
+    private List<Rol> rolList;
 }
