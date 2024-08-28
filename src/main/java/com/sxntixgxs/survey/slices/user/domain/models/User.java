@@ -2,11 +2,8 @@ package com.sxntixgxs.survey.slices.user.domain.models;
 
 import java.util.List;
 
-import org.hibernate.annotations.ManyToAny;
-
 import com.sxntixgxs.survey.slices.rol.domain.models.Rol;
 
-import jakarta.annotation.Generated;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;

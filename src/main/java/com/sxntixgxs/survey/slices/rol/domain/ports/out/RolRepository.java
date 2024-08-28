@@ -14,6 +14,5 @@ public interface RolRepository extends JpaRepository<Rol,Integer>{
     Optional<Rol> getRolById(int id);
     Optional<Rol> updateRol(Rol rol);
     void deleteRol(int id);
-    List<Rol> getAll();
     List<Rol> getRolByName(String rolname);
 }

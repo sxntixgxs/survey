@@ -3,7 +3,6 @@ package com.sxntixgxs.survey.slices.rol.application.services;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.sxntixgxs.survey.slices.rol.domain.models.Rol;
@@ -14,7 +13,6 @@ import com.sxntixgxs.survey.slices.rol.domain.ports.out.RolRepository;
 public class RolService implements RolOperations{
     
     private final RolRepository repository;
-    @Autowired
     public RolService(RolRepository repository) {
         this.repository = repository;
     }
@@ -31,7 +29,13 @@ public class RolService implements RolOperations{
 
     @Override
     public Optional<Rol> updateRol(Rol rol) {
-        return Optional.of(repository.save(rol));
+        if(
+            repository.findById(rol.getId()).isPresent()
+        ){
+            return Optional.of(repository.save(rol));
+        }else{
+            return Optional.empty();
+        }
     }
 
     @Override
@@ -41,6 +45,6 @@ public class RolService implements RolOperations{
 
     @Override
     public List<Rol> getAllRol() {
-        return repository.getAll();
+        return repository.findAll();
     }
 }
