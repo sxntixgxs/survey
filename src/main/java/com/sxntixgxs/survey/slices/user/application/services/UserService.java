@@ -1,4 +1,4 @@
-package com.sxntixgxs.survey.slices.user.domain.application.services;
+package com.sxntixgxs.survey.slices.user.application.services;
 
 import java.util.List;
 import java.util.Optional;

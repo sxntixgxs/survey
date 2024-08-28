@@ -9,9 +9,6 @@ import com.sxntixgxs.survey.slices.user.domain.models.User;
 
 @Repository
 public interface UserOperations {
-    void createRole(User user);
-    Optional<User> getUserById(int id);
-    Optional<User> updateUser(User user);
-    void deleteUser(int id);
-    List<User> getAllUsers();
+    public User findByName(String name);
+    
 }
