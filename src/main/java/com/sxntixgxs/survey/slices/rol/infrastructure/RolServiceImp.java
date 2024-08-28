@@ -31,17 +31,19 @@ public class RolServiceImp implements RolOperations{
         if(
             rolRepository.findById(rol.getId()).isPresent()
         ){
-            return Optional.of(rol);
+            return Optional.of(rolRepository.save(rol));
         }else{
             return Optional.empty();
         }
     }
     @Override
     public void deleteRol(int id) {
-        rolRepository.delete(getRolById(id).get());
+        if(rolRepository.findById(id).isPresent()){
+            rolRepository.deleteById(id);
+        }
     }
     @Override
     public List<Rol> getAllRol() {
-        return rolRepository.getAll();
+        return rolRepository.findAll();
     }
 }
