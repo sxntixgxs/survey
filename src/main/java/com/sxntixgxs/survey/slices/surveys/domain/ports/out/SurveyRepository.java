@@ -10,7 +10,7 @@ import java.util.Optional;
 
 public interface SurveyRepository extends JpaRepository<Survey,Integer> {
     List<Survey> findByName(String name);
-    Optional<Survey> getSurveyById(int id));
+    Optional<Survey> getSurveyById(int id);
     Optional<Survey> updateSurvey(Survey survey);
     Optional<Survey> deleteSurvey(int id);
 }

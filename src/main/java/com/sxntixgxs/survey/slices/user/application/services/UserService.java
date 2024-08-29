@@ -4,59 +4,35 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import com.sxntixgxs.survey.slices.user.domain.models.User;
+import com.sxntixgxs.survey.slices.user.domain.models.AppUser;
 import com.sxntixgxs.survey.slices.user.domain.ports.in.UserOperations;
 import com.sxntixgxs.survey.slices.user.domain.ports.out.UserRepository;
 
+
 @Service
-public class UserService  implements UserOperations{
-    private final UserRepository repository;
+public class UserService  implements UserDetailsService{
     @Autowired
-    public UserService(UserRepository repository) {
-        this.repository = repository;
-    }
-
+    private UserRepository userRepository;
     @Override
-    public void createRole(User user) {
-        repository.save(user);
-    }
-
-    @Override
-    public Optional<User> getUserById(int id) {
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        Optional<AppUser> optionalUser = userRepository.findByName(username);
         if(
-            repository.findById(id).isPresent()
+            optionalUser.isPresent()
         ){
-            return Optional.of(repository.findById(id).get());
+            AppUser user = optionalUser.get();
+            return org.springframework.security.core.userdetails.User.withUsername(user.getUsername())
+                    .password(user.getPassword())
+                    .roles(user.getRol())
+                    .build();
         }else{
-            return Optional.empty();
+            throw new UsernameNotFoundException("User not found "+username);
         }
     }
 
-    @Override
-    public Optional<User> updateUser(User user) {
-        if(
-            repository.existsById(user.getId())
-        ){
-            return Optional.of(repository.save(user));
-        }else{
-            return Optional.empty();
-        }
-    }
-
-    @Override
-    public void deleteUser(int id) {
-        if(
-            repository.existsById(id)
-        ){
-            repository.deleteById(id);
-        }
-    }
-
-    @Override
-    public List<User> getAllUsers() {
-        return repository.findAll();
-    }
     
 }
