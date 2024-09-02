@@ -8,9 +8,11 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import static org.springframework.security.config.Customizer.withDefaults;
 
 @Configuration
 @EnableWebSecurity
+
 public class SecurityConfig{
     private final UserDetailsService userDetailsService;
 
@@ -20,24 +22,14 @@ public class SecurityConfig{
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
         return http
+                .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/","/public/**").permitAll() //public routes
-                        .requestMatchers("/admin/**").hasRole("ADMIN") //admin routes
-                        .requestMatchers("/user/**").hasRole("USER") //user routes
+                        .requestMatchers("/auth/**").permitAll() //public routes
+                        //here go the protected routes, where you have to set the roles for the specific endpoints
                         .anyRequest().authenticated()
                         )
-                        .formLogin(form -> form
-                                .loginPage("/login") //personalizes login page
-                                .defaultSuccessUrl("/",true)
-                                .permitAll()
-                        )
-                        .logout(logout -> logout
-                                .logoutUrl("/logout")
-                                .logoutSuccessUrl("/login?logout")
-                                .permitAll()
-                        )
-                        .userDetailsService(userDetailsService)
-                        .build();
+                .formLogin(withDefaults())
+                .build();
     }
     @Bean
     public PasswordEncoder passwordEncoder(){

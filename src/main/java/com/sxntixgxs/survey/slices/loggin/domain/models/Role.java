@@ -1,9 +1,8 @@
-package com.sxntixgxs.survey.slices.user.domain.models;
+package com.sxntixgxs.survey.slices.loggin.domain.models;
 
 import java.util.List;
 
-import com.sxntixgxs.survey.slices.rol.domain.models.Rol;
-
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -11,21 +10,24 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
+@Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
-@Table(name = "users")
-public class AppUser {
-
+@Table(name="roles")
+public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    private boolean enabled;
-    private String username;
-    private String password;
-    @ManyToOne
-    @JoinColumn(name = "idRol")
-    private Rol rol;
-}   
+    private String name;
+    @ManyToMany(mappedBy = "listRoles")
+    private List<AppUser> listUsers;
+}
