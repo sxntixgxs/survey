@@ -1,17 +1,17 @@
-package com.sxntixgxs.survey.surveys.domain.models;
+package com.sxntixgxs.survey.chapters.domain.models;
+
+import com.sxntixgxs.survey.surveys.domain.models.Survey;
 
 import java.util.Date;
-import java.util.List;
 
-import com.sxntixgxs.survey.chapters.domain.models.Chapter;
-
+import jakarta.annotation.Generated;
 import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -23,16 +23,16 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name="surveys")
-public class Survey {
+@Table(name="chapters")
+public class Chapter {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private Date created_at;
-    @Column(nullable = true)
-    private Date update_at;
-    private String name;
-    private String description;
-    @OneToMany(mappedBy = "survey",cascade = CascadeType.ALL)
-    private List<Chapter> chapters;
+    private Date updated_at;
+    private String chapter_number;
+    private String chapter_title;
+    @ManyToOne
+    @JoinColumn(name = "survey_id")
+    private Survey survey;
 }
