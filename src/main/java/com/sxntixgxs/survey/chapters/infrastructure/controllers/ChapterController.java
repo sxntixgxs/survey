@@ -51,7 +51,7 @@ public class ChapterController {
 
 
     }
-    @GetMapping
+    @GetMapping("/{id}")
     public ResponseEntity<List<Chapter>> getAllChaptersByChapterId(@PathVariable Integer id){
         return ResponseEntity.ok(services.getChaptersBySurveyId(id));
     }
