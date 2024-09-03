@@ -34,15 +34,13 @@ public class AuthService {
                 .token(token)
                 .build();
     }
-    public AuthResponse register(RegisterRequest registerRequest){
+    public String register(RegisterRequest registerRequest){
         User user = User.builder()
             .username(registerRequest.getUsername())
             .password(passwordEncoder.encode(registerRequest.getPassword()))
             .role(registerRequest.getRole())
             .build();
         userRepository.save(user);
-        return AuthResponse.builder()
-            .token(jwtService.getToken(user))
-            .build();
+        return "User saved"; 
     }
 }
