@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.ArrayList;
 
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import com.sxntixgxs.survey.surveys.domain.models.Survey;
@@ -25,9 +27,17 @@ public class SurveyServices implements SurveyOperations{
 
     @Override
     public List<Survey> getAllSurveys() {
-        List<Survey> surveys = new ArrayList<>();
-        repository.findAll().forEach(surveys::add);
-        return surveys;
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if(authentication != null && authentication.getAuthorities().stream()
+            .anyMatch(role -> role.getAuthority().equals("ADMIN"))){
+                //admin can see all
+                List<Survey> surveys = new ArrayList<>();
+                repository.findAll().forEach(surveys::add);
+                return surveys;
+            }else{
+                // only can see published surveys
+                return repository.findByPublishedTrue();
+            }
     }
 
     @Override

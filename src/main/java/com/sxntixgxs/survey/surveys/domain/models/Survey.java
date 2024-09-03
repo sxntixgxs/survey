@@ -33,6 +33,7 @@ public class Survey {
     private Date update_at;
     private String name;
     private String description;
+    private boolean published;
     @OneToMany(mappedBy = "survey",cascade = CascadeType.ALL)
     private List<Chapter> chapters;
 }

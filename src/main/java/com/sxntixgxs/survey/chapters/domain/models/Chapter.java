@@ -1,11 +1,13 @@
 package com.sxntixgxs.survey.chapters.domain.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sxntixgxs.survey.surveys.domain.models.Survey;
 
 import java.util.Date;
 
 import jakarta.annotation.Generated;
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -34,5 +36,6 @@ public class Chapter {
     private String chapter_title;
     @ManyToOne
     @JoinColumn(name = "survey_id")
+    @JsonIgnore
     private Survey survey;
 }
