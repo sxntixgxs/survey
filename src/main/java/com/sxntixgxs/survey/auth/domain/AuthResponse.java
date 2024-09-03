@@ -1,4 +1,4 @@
-package com.sxntixgxs.survey.slices.loggin.domain.models;
+package com.sxntixgxs.survey.auth.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class LogginRequest {
-    private String username;
-    private String password;
+public class AuthResponse {
+    String token;
+
 }

@@ -1,5 +1,6 @@
 package com.sxntixgxs.survey.config;
 
+import org.hibernate.internal.ExceptionConverterImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -11,17 +12,19 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import com.sxntixgxs.survey.slices.loggin.domain.ports.out.AppUserRepository;
+import com.sxntixgxs.survey.auth.domain.ports.out.UserRepository;
 
 import lombok.RequiredArgsConstructor;
 
 @Configuration
 @RequiredArgsConstructor
 public class ApplicationConfig {
-    private final AppUserRepository userRepository;
+
+    private final UserRepository userRepository;
+
     @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception{
-        return config.getAuthenticationManager();
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception{
+        return configuration.getAuthenticationManager();
     }
     @Bean
     public AuthenticationProvider authenticationProvider(){
@@ -31,12 +34,12 @@ public class ApplicationConfig {
         return authenticationProvider;
     }
     @Bean
-    public UserDetailsService userDetailsService(){
-        return username -> userRepository.findByUsername(username)
-        .orElseThrow(()-> new UsernameNotFoundException("User not found"));
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
     }
     @Bean
-    public PasswordEncoder passwordEncoder(){
-        return new BCryptPasswordEncoder();
+    public UserDetailsService userDetailsService() {
+        return username -> userRepository.findByUsername(username)
+            .orElseThrow(() -> new UsernameNotFoundException("User not found"));
     }
 }
