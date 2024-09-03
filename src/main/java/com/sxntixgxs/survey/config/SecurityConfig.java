@@ -27,7 +27,11 @@ public class SecurityConfig{
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/auth/**").permitAll() //public routes
+                        
                         //here go the protected routes, where you have to set the roles for the specific endpoints
+                        .requestMatchers("/api/surveys/create").hasAuthority("ADMIN")//create survey
+                        .requestMatchers("/api/surveys/update").hasAuthority("ADMIN")//update survey
+                        .requestMatchers("/api/surveys/delete").hasAuthority("ADMIN")//delete survey
                         .anyRequest().authenticated()
                         )
                 .sessionManagement( session -> session
