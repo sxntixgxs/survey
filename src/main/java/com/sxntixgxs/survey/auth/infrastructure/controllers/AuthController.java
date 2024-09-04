@@ -16,20 +16,20 @@ import com.sxntixgxs.survey.auth.domain.RegisterRequest;
 
 import lombok.RequiredArgsConstructor;
 
-@Controller
+@RestController
 @RequestMapping("/auth")
 @RequiredArgsConstructor
 public class AuthController {
     private final AuthService authService;
 
-    @GetMapping("/login")
-    public String showLoginPage(){
-        return "auth/login.html";
-    }
-    @GetMapping("/register")
-    public String showRegisterPage(){
-        return "auth/register.html";
-    }
+    // @GetMapping("/login")
+    // public String showLoginPage(){
+    //     return "auth/login.html";
+    // }
+    // @GetMapping("/register")
+    // public String showRegisterPage(){
+    //     return "auth/register.html";
+    // }
 
     @PostMapping(value = "login")
     public ResponseEntity<AuthResponse> login(@RequestBody LoginRequest request){
