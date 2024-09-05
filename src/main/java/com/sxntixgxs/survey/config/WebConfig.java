@@ -21,4 +21,5 @@ public class WebConfig implements WebMvcConfigurer{
         System.out.println("WebConfig inicializada");
     }
 
+
 }
