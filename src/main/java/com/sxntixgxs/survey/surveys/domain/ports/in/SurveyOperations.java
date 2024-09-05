@@ -8,6 +8,7 @@ import com.sxntixgxs.survey.surveys.domain.models.Survey;
 public interface SurveyOperations {
     Survey create(Survey survey);
     List<Survey> getAllSurveys();
+    Optional<Survey> getById(Integer id);
     Optional<Survey> update(Survey survey);
     boolean delete(Integer id);
 }

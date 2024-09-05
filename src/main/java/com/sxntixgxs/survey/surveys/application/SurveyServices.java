@@ -60,4 +60,9 @@ public class SurveyServices implements SurveyOperations{
             return false;
         }
     }
+
+    @Override
+    public Optional<Survey> getById(Integer id) {
+        return repository.findById(id);
+    }
 }

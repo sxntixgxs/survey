@@ -39,6 +39,10 @@
             List<Survey> surveys = services.getAllSurveys();
             return ResponseEntity.ok(surveys);  
         }
+        @GetMapping("/{id}")
+        public ResponseEntity<Survey> getSurveyById(@PathVariable Integer id){
+            return ResponseEntity.ok(services.getById(id).get());
+        }
         @PutMapping("/{id}")
         public ResponseEntity<Survey> updateSurvey(@PathVariable Integer id, @RequestBody Survey survey){
             survey.setId(id);
