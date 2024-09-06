@@ -3,6 +3,7 @@ package com.sxntixgxs.survey.jwt.application;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.List;
 import java.security.Key;
 import java.util.stream.Collectors;
 
@@ -60,6 +61,14 @@ public class JwtService {
     public String getUsernameFromToken(String token){
         Claims claims = Jwts.parserBuilder().setSigningKey(getKey()).build().parseClaimsJws(token).getBody();
         return claims.getSubject();
+    }
+    public List<String> getRoleFromToken(String token){
+        Claims claims = Jwts.parserBuilder()
+            .setSigningKey(getKey())
+            .build()
+            .parseClaimsJws(token)
+            .getBody();
+        return claims.get("roles",List.class);
     }
     public UserDetails loadUserByUsername(String username) {
         User user = userRepository.findByUsername(username).orElseThrow(()-> new UsernameNotFoundException("user not found"));

@@ -8,6 +8,7 @@ import java.util.Optional;
 public interface ChapterOperations {
     Chapter create(Chapter chapter);
     List<Chapter> getChaptersBySurveyId(Integer id);
+    Optional<Chapter> findById(Integer id);
     Optional<Chapter> update(Chapter chapter);
     boolean delete(Integer id);
 }

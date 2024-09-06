@@ -11,10 +11,15 @@
     import org.springframework.web.bind.annotation.RequestMapping;
     import org.springframework.web.bind.annotation.RestController;
 
-    import com.sxntixgxs.survey.surveys.application.SurveyServices;
-    import com.sxntixgxs.survey.surveys.domain.models.Survey;
+import com.sxntixgxs.survey.chapters.domain.models.Chapter;
+import com.sxntixgxs.survey.surveys.application.SurveyServices;
+import com.sxntixgxs.survey.surveys.domain.dto.SurveyRequest;
+import com.sxntixgxs.survey.surveys.domain.models.Survey;
 
-    import java.util.List;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
     import java.util.Optional;
 
     import lombok.AllArgsConstructor;
@@ -30,10 +35,22 @@
             this.services = services;
         }
         @PostMapping("/create")
-        public ResponseEntity<Survey> createSurvey(@RequestBody Survey survey){
-            Survey createdSurvey = services.create(survey);
-            return ResponseEntity.ok(createdSurvey);
+        public ResponseEntity<Survey> createSurvey(@RequestBody SurveyRequest surveyRequest){
+            List<Chapter> lista = new ArrayList<>();
+            Survey createdSurvey = new Survey();
+            createdSurvey.setDescription(surveyRequest.getDescription());
+            createdSurvey.setName(surveyRequest.getName());
+            createdSurvey.setPublished(surveyRequest.isPublished());
+            createdSurvey.setChapters(lista);
+            
+            // Establece las fechas
+            createdSurvey.setCreated_at(new Date());
+            createdSurvey.setUpdate_at(new Date());
+            
+            Survey savedSurvey = services.create(createdSurvey);
+            return ResponseEntity.ok(savedSurvey);
         }
+        
         @GetMapping
         public ResponseEntity<List<Survey>> getAllSurveys(){
             List<Survey> surveys = services.getAllSurveys();

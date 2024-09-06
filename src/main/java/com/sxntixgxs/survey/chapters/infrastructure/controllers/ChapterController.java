@@ -55,12 +55,27 @@ public class ChapterController {
     public ResponseEntity<List<Chapter>> getAllChaptersBySurveyId(@PathVariable Integer id){
         return ResponseEntity.ok(services.getChaptersBySurveyId(id));
     }
-    @PutMapping("/{id}")
-    public ResponseEntity<Chapter> updateChapter(@PathVariable Integer id, @RequestBody Chapter chapter){
-        chapter.setId(id);
-        Optional<Chapter> updatedChapter = services.update(chapter);
-        return updatedChapter.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    @PutMapping("/{idSurvey}/{idChapter}")
+    public ResponseEntity<Chapter> updateChapter(@PathVariable Integer idSurvey, @PathVariable Integer idChapter, @RequestBody ChapterRequest chapterRequest) {
+        Optional<Chapter> existingChapter = services.findById(idChapter);
+    
+        if (existingChapter.isPresent() && existingChapter.get().getSurvey().getId() == idSurvey) {
+            Chapter chapter = existingChapter.get();
+            // Actualiza los campos del capítulo
+            chapter.setChapter_number(chapterRequest.getChapter_number());
+            chapter.setChapter_title(chapterRequest.getChapter_title());
+            chapter.setCreated_at(chapterRequest.getCreated_at());
+            chapter.setId(idChapter);
+            chapter.setSurvey(surveyRepository.findById(idSurvey).get()); // Suponiendo que ya tienes un constructor adecuado para Survey
+    
+            // Guarda el capítulo actualizado
+            Chapter updatedChapter = services.update(chapter).get();
+            return ResponseEntity.ok(updatedChapter);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
+    
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteChapter(@PathVariable Integer id){
         boolean deleted = services.delete(id);

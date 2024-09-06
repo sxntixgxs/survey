@@ -3,6 +3,7 @@ package com.sxntixgxs.survey.surveys.domain.models;
 import java.util.Date;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sxntixgxs.survey.chapters.domain.models.Chapter;
 
 import jakarta.persistence.CascadeType;
@@ -28,6 +29,7 @@ public class Survey {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+    @Column(nullable=true)
     private Date created_at;
     @Column(nullable = true)
     private Date update_at;

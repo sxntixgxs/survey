@@ -54,4 +54,9 @@ public class ChapterServices implements ChapterOperations{
             return false;
         }
     }
+
+    @Override
+    public Optional<Chapter> findById(Integer id) {
+        return repository.findById(id);
+    }
 }

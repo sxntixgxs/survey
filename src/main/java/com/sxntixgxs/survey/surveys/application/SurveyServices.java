@@ -8,6 +8,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import com.sxntixgxs.survey.surveys.domain.dto.SurveyRequest;
 import com.sxntixgxs.survey.surveys.domain.models.Survey;
 import com.sxntixgxs.survey.surveys.domain.ports.in.SurveyOperations;
 import com.sxntixgxs.survey.surveys.domain.ports.out.SurveyRepository;
